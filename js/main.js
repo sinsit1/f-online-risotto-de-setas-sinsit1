@@ -39,7 +39,7 @@ function list_products() {
     console.log(ingredients);
 
     itemsList.innerHTML = ingredients.map((ingredient, i) => {
-        return`
+        return `
         <li class="item__product box ">
             <div class="product">
                 <input class="checkbox__input" type="checkbox" id="item${i}" name="products" value=${ingredient.price.toFixed(2)} />
@@ -56,7 +56,7 @@ function list_products() {
             </div>
         </li>
         `;
-        
+
     }).join('');
 
 
@@ -120,20 +120,37 @@ function subtotal_calc() {
 
 
 function select_all() {
+
+
     for (let i = 0; i < document.form.elements.length; i++) {
         if (document.form.elements[i].type == "checkbox") {
             document.form.elements[i].checked = 1
+            console.log(totalExpenses);
+            totalExpenses += parseFloat(document.form.elements[i].value);
         }
     }
+    subtotal.innerHTML = 'Subtotal: ' + parseFloat(totalExpenses).toFixed(2);
+    shippingCost.innerHTML = 'Gastos de envio: ' + ship + result.recipe.currency;
+    total.innerHTML = 'Total: ' + (parseFloat(totalExpenses) + parseFloat(ship)).toFixed(2) + result.recipe.currency;
+    submit.innerHTML = 'Comprar ingredientes: ' + (parseFloat(totalExpenses) + parseFloat(ship)).toFixed(2) + result.recipe.currency;
 }
+
 
 function deselect_all() {
     let a;
     for (a = 0; a < document.form.elements.length; a++) {
         if (document.form.elements[a].type == "checkbox")
-        document.form.elements[a].checked = 0;
+            document.form.elements[a].checked = 0;
+            console.log(totalExpenses);
+            totalExpenses= 0;
     }
+    subtotal.innerHTML = 'Subtotal: ' + parseFloat(totalExpenses).toFixed(2);
+    shippingCost.innerHTML = 'Gastos de envio: ' + ship + result.recipe.currency;
+    total.innerHTML = 'Total: ' + (parseFloat(totalExpenses) + parseFloat(ship)).toFixed(2) + result.recipe.currency;
+    submit.innerHTML = 'Comprar ingredientes: ' + (parseFloat(totalExpenses) + parseFloat(ship)).toFixed(2) + result.recipe.currency;
 }
+
+
 
 
 

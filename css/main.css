@@ -18,6 +18,7 @@
 .ingredient__prices {
     display: flex;
     flex-direction: row;
+    align-items: center;
     margin: 20px;
 }
 
@@ -50,4 +51,7 @@
     margin: 0 auto;
     padding: 10px;
 
+}
+ul {
+    padding: 0;
 }
