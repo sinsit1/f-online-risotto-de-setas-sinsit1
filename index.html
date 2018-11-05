@@ -4,25 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Shopping cart</title>
 </head>
 <body>
         <header>
             <h2>Ingredientes</h2>
             <h1 class="recipe__name">Nombre del plato</h1>
         </header>
-        <main>
+        <main class="main__page">
             <a class="select__button">Seleccionar todo</a>
             <a class="deselect__button">Deseleccionar todo</a>
-            <form action="" name="form">
+            <form action="" name="form" class="form">
                 <ul class="form__products">
-
+                    
                 </ul>
-                    <p>Items:1</p>
-                    <p>Subtotal: 0</p>
-                    <p>Gastos de envio: 0</p>
-                    <p>Total: 0</p>
-                    <input type="submit" value="Comprar ingredientes total: X">
+                <p class="total__items"></p>
+                <p class="subtotal__price"></p>
+                <p class="shipping__price"></p>
+                <p class="total__price"></p>
+                
             </form>
         </main>
 <script src="./js/main.js"></script>
