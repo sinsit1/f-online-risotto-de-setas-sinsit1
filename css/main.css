@@ -10,7 +10,9 @@
     display: flex;
     justify-content: space-between;
     width: 60vw;
-    margin: 0 auto;
+    margin: 25px auto;
+    padding-bottom: 8px;
+    border-bottom: 1px solid lightgray;
 }
 
 .ingredient__prices {
@@ -36,6 +38,9 @@
 .buttons {
     display: flex;
     justify-content: center;
+    width: 60vw;
+    border-bottom: 1px solid lightgray;
+    margin: 0 auto;
 }
 
 .payment {
@@ -43,7 +48,6 @@
     flex-direction: column;
     width: 60vw;
     margin: 0 auto;
-    border-top: 1px solid lightgray;
     padding: 10px;
 
 }

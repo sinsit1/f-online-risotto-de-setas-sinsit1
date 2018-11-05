@@ -40,13 +40,13 @@ function list_products() {
 
     itemsList.innerHTML = ingredients.map((ingredient, i) => {
         return`
-        <li class="item__product box">
+        <li class="item__product box ">
             <div class="product">
                 <input class="checkbox__input" type="checkbox" id="item${i}" name="products" value=${ingredient.price.toFixed(2)} />
                 <input class="input__quantity" type="number" min="0" value="${ingredient.items}" />
                 <div class="checkbox">
                     <label for="item${i}">${ingredient.product}</label>
-                    <p>${ingredient.brand}</p>
+                    <p>${ingredient.brand!== undefined ?ingredient.brand : ''}</p>
                     <p>${ingredient.quantity}</p>
                 </div>
             </div>
