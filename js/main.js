@@ -85,9 +85,9 @@ function expenses() {
     const product = result.recipe.ingredients;
 
     items_number.innerHTML = 'Items: ' + product.length;
-    subtotal.innerHTML = 'Subtotal: ' + subtotalExpenses;
+    subtotal.innerHTML = 'Subtotal: ' + (parseFloat(subtotalExpenses));
     shippingCost.innerHTML = 'Shipping Cost: ' + ship + result.recipe.currency;
-    total.innerHTML = 'Total: ' + totalExpenses;
+    total.innerHTML = 'Total: ' + (parseFloat(totalExpenses));
     submit.value = 'Comprar ingredientes total: ' + totalExpenses;
     payment.appendChild(items_number);
     payment.appendChild(subtotal);
@@ -103,14 +103,14 @@ function subtotal_calc() {
 
     if (this.checked) {
         totalExpenses += parseFloat(money);
-        subtotal.innerHTML = 'Subtotal: ' + parseFloat(totalExpenses);
+        subtotal.innerHTML = 'Subtotal: ' + parseFloat(totalExpenses).toFixed(2);
         shippingCost.innerHTML = 'Gastos de envio: ' + ship + result.recipe.currency;
         total.innerHTML = 'Total: ' + (parseFloat(totalExpenses) + parseFloat(ship)).toFixed(2) + result.recipe.currency;
         submit.innerHTML = 'Comprar ingredientes: ' + (parseFloat(totalExpenses) + parseFloat(ship)).toFixed(2) + result.recipe.currency;
 
     } else if (!this.checked) {
         totalExpenses -= parseFloat(money);
-        subtotal.innerHTML = 'Subtotal: ' + parseFloat(totalExpenses);
+        subtotal.innerHTML = 'Subtotal: ' + parseFloat(totalExpenses).toFixed(2);
         shippingCost.innerHTML = 'Gastos de envio: ' + ship + result.recipe.currency;
         total.innerHTML = 'Total: ' + (parseFloat(totalExpenses) + parseFloat(ship)).toFixed(2) + result.recipe.currency;
         submit.innerHTML = 'Comprar ingredientes: ' + (parseFloat(totalExpenses) + parseFloat(ship)).toFixed(2) + result.recipe.currency;
