@@ -6,12 +6,17 @@ let subtotalExpenses = 0;
 let totalExpenses = 0;
 const ship = parseInt(7);
 
-const form = document.querySelector('form');
+const itemsList = document.querySelector('.form__products');
+const payment = document.querySelector('.payment');
 const items_number = document.querySelector('.total__items');
 const subtotal = document.querySelector('.subtotal__price');
 const shippingCost = document.querySelector('.shipping__price');
 const total = document.querySelector('.total__price');
 const submit = document.querySelector('.submit_btn');
+const select = document.querySelector('.select__button');
+const deselect = document.querySelector('.deselect__button');
+
+
 
 
 
@@ -19,7 +24,7 @@ fetch(url)
     .then(res => res.json())
     .then(data => {
         result = data;
-        console.log('data', result);
+        console.log(result);
         list_products();
         recipeName(result.recipe.name);
     });
@@ -30,56 +35,48 @@ function recipeName(name) {
 }
 
 function list_products() {
-    const product = result.recipe.ingredients;
+    const ingredients = result.recipe.ingredients;
+    console.log(ingredients);
 
-    console.log(product);
+    itemsList.innerHTML = ingredients.map((ingredient, i) => {
+        return`
+        <li class="item__product box">
+            <div class="product">
+                <input class="checkbox__input" type="checkbox" id="item${i}" name="products" value=${ingredient.price.toFixed(2)} />
+                <input class="input__quantity" type="number" min="0" value="${ingredient.items}" />
+                <div class="checkbox">
+                    <label for="item${i}">${ingredient.product}</label>
+                    <p>${ingredient.brand}</p>
+                    <p>${ingredient.quantity}</p>
+                </div>
+            </div>
+            <div class="ingredient__prices">
+                <p>${ingredient.price}</p>
+                <p>${result.recipe.currency}</p>
+            </div>
+        </li>
+        `;
+        
+    }).join('');
 
-    for (var i = 0; i < product.length; i++) {
-        const li = document.createElement('li');
-        const check = document.createElement('input');
-        const article = document.createElement('h1');
-        const brand = document.createElement('h2');
-        const price = document.createElement('p');
-        const priceCurrency = document.createElement('h2');
-        const quantityNumber = document.createElement('input');
 
-        article.innerHTML = product[i].product;
-        priceCurrency.innerHTML = product[i].price + ' ' + result.recipe.currency;
-
-        product[i].brand !== undefined ?
-            brand.innerHTML = product[i].brand :
-            brand.innerHTML = '';
-
-        price.innerHTML = product[i].price + ' ' + product[i].quantity;
-
-        quantityNumber.type = 'number';
-        quantityNumber.min = 0;
-        quantityNumber.value = product[i].items;
-
-        check.type = 'checkbox';
-        check.name = 'products';
-        check.value = product[i].price;
-        const list = document.querySelector('.form__products');
-
-        list.appendChild(li);
-        li.appendChild(check);
-        li.appendChild(quantityNumber);
-        li.appendChild(article);
-        li.appendChild(brand === undefined ? '' : brand);
-        li.appendChild(price);
-        li.appendChild(priceCurrency);
-    }
-    handlerCheck();
+    handlerInputs();
     expenses();
 }
 
 
 
-function handlerCheck() {
+function handlerInputs() {
     let checkboxesList = document.querySelectorAll('input[name=products]');
+    // let quantityList = document.querySelectorAll('.quantity__number');
+
     checkboxesList.forEach((checkboxes) => {
         return checkboxes.addEventListener('change', subtotal_calc);
     })
+
+    // quantityList.forEach((quant) => {
+    //     return quant.addEventListener('change', subtotal_calc);
+    // })
 
 }
 
@@ -90,31 +87,28 @@ function expenses() {
     items_number.innerHTML = 'Items: ' + product.length;
     subtotal.innerHTML = 'Subtotal: ' + subtotalExpenses;
     shippingCost.innerHTML = 'Shipping Cost: ' + ship + result.recipe.currency;
-    total.innerHTML = 'Total: ' + totalExpenses + shippingCost;
+    total.innerHTML = 'Total: ' + totalExpenses;
     submit.value = 'Comprar ingredientes total: ' + totalExpenses;
-    form.appendChild(items_number);
-    form.appendChild(subtotal);
-    form.appendChild(shippingCost);
-    form.appendChild(total);
-    form.appendChild(submit);
+    payment.appendChild(items_number);
+    payment.appendChild(subtotal);
+    payment.appendChild(shippingCost);
+    payment.appendChild(total);
+    payment.appendChild(submit);
 
 }
 
 function subtotal_calc() {
-
+    console.log('aqui');
     let money = this.value;
 
     if (this.checked) {
-        console.log('añado' + totalExpenses);
         totalExpenses += parseFloat(money);
-        console.log('añado' + totalExpenses);
         subtotal.innerHTML = 'Subtotal: ' + parseFloat(totalExpenses);
         shippingCost.innerHTML = 'Gastos de envio: ' + ship + result.recipe.currency;
         total.innerHTML = 'Total: ' + (parseFloat(totalExpenses) + parseFloat(ship)).toFixed(2) + result.recipe.currency;
         submit.innerHTML = 'Comprar ingredientes: ' + (parseFloat(totalExpenses) + parseFloat(ship)).toFixed(2) + result.recipe.currency;
 
     } else if (!this.checked) {
-        console.log('quito' + money);
         totalExpenses -= parseFloat(money);
         subtotal.innerHTML = 'Subtotal: ' + parseFloat(totalExpenses);
         shippingCost.innerHTML = 'Gastos de envio: ' + ship + result.recipe.currency;
@@ -137,13 +131,10 @@ function deselect_all() {
     let a;
     for (a = 0; a < document.form.elements.length; a++) {
         if (document.form.elements[a].type == "checkbox")
-            console.dir(document.form.elements);
         document.form.elements[a].checked = 0;
     }
 }
 
-const select = document.querySelector('.select__button');
-const deselect = document.querySelector('.deselect__button');
 
 
 select.addEventListener('click', select_all);
