@@ -4,13 +4,15 @@ const url ='https://raw.githubusercontent.com/Adalab/recipes-data/master/rissoto
 let result;
 let subtotalExpenses=0;
 let totalExpenses=0;
+const ship=parseInt(7);
 
     const form= document.querySelector('form');
     const items_number = document.querySelector('.total__items');
     const subtotal = document.querySelector('.subtotal__price');
     const shippingCost = document.querySelector('.shipping__price');
     const total = document.querySelector('.total__price');
-    const submit= document.createElement('input');
+    const submit= document.querySelector('.submit_btn');
+    
 
 
 fetch(url)
@@ -76,7 +78,6 @@ function list_products(){
 function handlerCheck() {
     let checkboxesList = document.querySelectorAll('input[name=products]');
     checkboxesList.forEach((checkboxes) => {
-        console.log('holi');
         return checkboxes.addEventListener('change', subtotal_calc);
     })
    
@@ -85,15 +86,11 @@ function handlerCheck() {
 
 function expenses(){
     const product= result.recipe.ingredients;
-
     
-    
-
     items_number.innerHTML= 'Items: '+product.length;
     subtotal.innerHTML= 'Subtotal: '+subtotalExpenses;
-    shippingCost.innerHTML='Shipping Cost: 7'+result.recipe.currency;
+    shippingCost.innerHTML='Shipping Cost: '+ship+result.recipe.currency;
     total.innerHTML='Total: '+totalExpenses+shippingCost;
-    submit.type='submit';
     submit.value= 'Comprar ingredientes total: '+totalExpenses;
     form.appendChild(items_number);
     form.appendChild(subtotal);
@@ -106,24 +103,23 @@ function expenses(){
 function subtotal_calc(){
 
     let money = this.value;
-    parseInt(money);
-    parseInt(totalExpenses);
-    parseInt(subtotalExpenses);
-    console.log('holi',money )
     
     if (this.checked) {
-        subtotalExpenses = money;
+        console.log('añado'+totalExpenses);
+        totalExpenses += parseFloat(money);
+        console.log('añado'+totalExpenses);
+        subtotal.innerHTML = 'Subtotal: '+ parseFloat(totalExpenses) ;
+        shippingCost.innerHTML = 'Gastos de envio: '+ship + result.recipe.currency;
+        total.innerHTML = 'Total: ' + (parseFloat(totalExpenses) + parseFloat(ship)).toFixed(2) + result.recipe.currency;
+        submit.innerHTML = 'Comprar ingredientes: ' + (parseFloat(totalExpenses) + parseFloat(ship)).toFixed(2) + result.recipe.currency;
         
-        subtotal.innerHTML = 'Subtotal: ' +totalExpenses;
-        shippingCost.innerHTML = 'Gastos de envio: 7' + result.recipe.currency;
-        total.innerHTML = 'Total: ' +parseInt(totalExpenses) + (money + 7) + result.recipe.currency;
-        submit.innerHTML = 'Comprar ingredientes: ' + (totalExpenses + 7 ) + result.recipe.currency;
     } else if (!this.checked) {
-        subtotalExpenses = money;
-        subtotal.innerHTML = 'Subtotal:' + (totalExpenses);
-        shippingCost.innerHTML = 'Gastos de envio: ' + 7 + result.recipe.currency;
-        total.innerHTML = 'Total: ' + (totalExpenses + 7) + result.recipe.currency;
-        submit.innerHTML = 'Comprar ingredientes: ' + (totalExpenses + 7) + result.recipe.currency;
+        console.log('quito'+money);
+        totalExpenses -= parseFloat(money);
+        subtotal.innerHTML = 'Subtotal: ' + parseFloat(totalExpenses);
+        shippingCost.innerHTML = 'Gastos de envio: ' + ship + result.recipe.currency;
+        total.innerHTML = 'Total: ' + (parseFloat(totalExpenses) + parseFloat(ship)).toFixed(2) + result.recipe.currency;
+        submit.innerHTML = 'Comprar ingredientes: ' + (parseFloat(totalExpenses) + parseFloat(ship)).toFixed(2) + result.recipe.currency;
     }    
     
 } 
@@ -138,7 +134,6 @@ function select_all(){
  } 
 
  function deselect_all(){ 
-    console.log('Llego',document.form.elements );
     let a;
     for (a=0;a<document.form.elements.length;a++) {
        if(document.form.elements[a].type == "checkbox")	
